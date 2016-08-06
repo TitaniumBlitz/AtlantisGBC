@@ -1,0 +1,135 @@
+<html>
+<script type="text/javascript">
+
+function getObj(id) {
+	return document.getElementById("t1");
+}
+
+function exists(prop) {
+	return prop != undefined && prop != null;
+}
+
+function parseJSON() {
+
+	var myObject = JSON.parse(getObj("t1").value);
+	
+	console.log(myObject.unprefixed);
+	
+	var outSwitch = "";
+	
+	outSwitch += "switch(op) {";
+	outSwitch += "\n";
+	
+	/*for (var op in myObject.unprefixed) {
+		outSwitch += "\tcase (byte)" + op + ": {" ;
+		outSwitch += "\n";
+		outSwitch += "\t\t// " + myObject.unprefixed[op].mnemonic + " " + myObject.unprefixed[op].operand1 + (exists(myObject.unprefixed[op].operand2) ? ", " + myObject.unprefixed[op].operand2 : "") + "\n";
+		outSwitch += "\t\tbreak;\n";
+		outSwitch += "\t}";
+		outSwitch += "\n";
+	}*/
+	
+	var lookup = new Array(256);
+	
+	var baseNames = [];
+	
+	var functions = "";
+	
+	var baseObject = myObject.unprefixed;
+	
+	var map = "UNPREFIXED";
+	
+	var index = 0;
+	
+	var params = new Array(256);
+	
+	// lookups
+	
+	var fLookup = [0, 1, "-"];
+	
+	var op1 = [];
+	var op2 = [];
+	
+	function opLookup(val, opLookup) {
+		if(!exists(val)) {
+			return -1;
+		}
+		
+		if(opLookup.indexOf(val) <= -1) {
+			opLookup.push(val);
+		}
+		
+		return opLookup.indexOf(val);
+	}
+	
+	function fL(val) {
+		if(fLookup.indexOf(val*1) != -1) {
+			return fLookup.indexOf(val * 1);
+		}
+		else if(fLookup.indexOf(val) != -1) {
+			return fLookup.indexOf(val);
+		}
+		return fLookup.length;
+	}
+	
+	for (var op in baseObject) {
+		if(baseNames.indexOf(baseObject[op].mnemonic) == -1) {
+			baseNames.push(baseObject[op].mnemonic);
+			
+			functions += "Instruction " + baseObject[op].mnemonic + " = new Instruction(" + '"' + baseObject[op].mnemonic + '"' + "," + map + ") {"
+							+ "\n\tpublic void execute() {"
+								+"\n"
+							+"\n\t}"
+						  +"\n};";
+						  
+			functions += "\n";
+		}
+		
+		var p = new Array();
+		p.push("{");
+		
+		p.push(fL(baseObject[op].flags_ZHNC[0]));
+		p.push(fL(baseObject[op].flags_ZHNC[1]));
+		p.push(fL(baseObject[op].flags_ZHNC[2]));
+		p.push(fL(baseObject[op].flags_ZHNC[3]));
+		
+		p.push( opLookup(baseObject[op].operand1, op1) );
+		p.push( opLookup(baseObject[op].operand2, op1) );
+		
+		p.push( baseObject[op].operand_count );
+		p.push( baseObject[op].bytes );
+		
+		for(var i = 0; i < baseObject[op].cycles.length; i++) {
+			p.push(baseObject[op].cycles[i]);
+		}
+		
+		p.push("}");
+		
+		index = op*1;
+		lookup[ index ] = '"' + baseObject[op].mnemonic + '"';
+		
+		params[index] = p;
+	}
+	
+	alert(op1);
+	//alert(op2);	
+	alert(params);
+	alert(lookup);	
+	alert(baseNames);	
+	alert(functions);
+	
+	outSwitch += "\n";
+	outSwitch += "default: break;";
+	outSwitch += "\n}";
+	
+	getObj("switchOut").value = outSwitch;
+}
+
+</script>
+<body>
+<textarea rows="20" cols="20" id="t1"></textarea>
+<br />
+<textarea rows="20" cols="20" id="switchOut"></textarea>
+<input type = "button" onclick="parseJSON()" />
+</body>
+</html>

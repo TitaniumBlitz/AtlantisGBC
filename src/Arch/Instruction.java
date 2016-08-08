@@ -30,7 +30,7 @@ public class Instruction {
 	public static final int IMMD_16_ADDR = 10; // (a16)
 	//public static final int (HL+) = 11;
 	public static final int NZ = 12;
-	//public static final int d16 = 13;
+	public static final int IMMD_16_DATA = 13; // d16
 	//public static final int H = 14;
 	//public static final int D = 15;
 	//public static final int (C) = 16;

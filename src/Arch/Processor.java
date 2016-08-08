@@ -89,6 +89,10 @@ public class Processor {
 					short addr16 = data.readShort();
 					log.append( ops[params[Instruction.Operand_1]] + ", " + "(" + StringUtils.toHexStr(addr16) + ")");
 				}
+				else if( params[Instruction.Operand_2] == Instruction.IMMD_16_DATA ) {
+					short addr16 = data.readShort();
+					log.append( ops[params[Instruction.Operand_1]] + ", " + StringUtils.toHexStr(addr16) );
+				}
 			}
 		};
 		
@@ -131,7 +135,16 @@ public class Processor {
 		
 		Instruction INC = new Instruction("INC",UNPREFIXED) {
 			public void execute(short... params) {
+				int op1 = params[ Instruction.Operand_1 ];
 				
+				// dealing with an 8bit reg here...
+				if( !Registers.isReg16(op1) ) {
+					
+				}
+				// otherwise, we're dealing with a 16bit reg
+				else {
+					
+				}
 			}
 			
 			public void log(StringBuilder log, short... params) {
@@ -178,7 +191,7 @@ public class Processor {
 				int op1_index = params[Instruction.Operand_1];
 				int op2_index = params[Instruction.Operand_2];
 				String op1 = ops[ params[Instruction.Operand_1] ];
-				short sB = (short) ((short)data.readByte() + ++regs.PC); // get signed byte data
+				short sB = (short) ((short)data.readByte() + data.position); // get signed byte data
 				if(op1_index == Instruction.SIGNED_8) {
 					log.append(StringUtils.toHexStr(sB));
 				}
@@ -524,15 +537,27 @@ public class Processor {
 			public void execute(short... params) {
 				
 			}
+			
+			public void log(StringBuilder log, short... params) {
+				log.append(getMnemonic() + "\t" + cbOps[ params[Instruction.Operand_1] ]); 
+			}
 		};
 		Instruction SET = new Instruction("SET",CBPREFIXED) {
 			public void execute(short... params) {
 
 			}
+			
+			public void log(StringBuilder log, short... params) {
+				log.append(getMnemonic() + "\t" + cbOps[ params[Instruction.Operand_1] ] + ", " + cbOps[ params[Instruction.Operand_2] ]); 
+			}
 		};
 		Instruction SRA = new Instruction("SRA",CBPREFIXED) {
 			public void execute(short... params) {
-
+				
+			}
+			
+			public void log(StringBuilder log, short... params) {
+				log.append(getMnemonic() + "\t" + cbOps[ params[Instruction.Operand_1] ] + ", " + cbOps[ params[Instruction.Operand_2] ]); 
 			}
 		};
 		
@@ -550,35 +575,63 @@ public class Processor {
 			public void execute(short... params) {
 
 			}
+			
+			public void log(StringBuilder log, short... params) {
+				log.append(getMnemonic() + "\t" + cbOps[ params[Instruction.Operand_1] ] + ", " + cbOps[ params[Instruction.Operand_2] ]); 
+			}
 		};
 		Instruction BIT = new Instruction("BIT",CBPREFIXED) {
 			public void execute(short... params) {
 
+			}
+			
+			public void log(StringBuilder log, short... params) {
+				log.append(getMnemonic() + "\t" + cbOps[ params[Instruction.Operand_1] ] + ", " + cbOps[ params[Instruction.Operand_2] ]); 
 			}
 		};
 		Instruction SWAP = new Instruction("SWAP",CBPREFIXED) {
 			public void execute(short... params) {
 
 			}
+			
+			public void log(StringBuilder log, short... params) {
+				log.append(getMnemonic() + "\t" + cbOps[ params[Instruction.Operand_1] ]); 
+			}
 		};
 		Instruction RRC = new Instruction("RRC",CBPREFIXED) {
 			public void execute(short... params) {
 
+			}
+			
+			public void log(StringBuilder log, short... params) {
+				log.append(getMnemonic() + "\t" + cbOps[ params[Instruction.Operand_1] ]); 
 			}
 		};
 		Instruction RLC = new Instruction("RLC",CBPREFIXED) {
 			public void execute(short... params) {
 
 			}
+			
+			public void log(StringBuilder log, short... params) {
+				log.append(getMnemonic() + "\t" + cbOps[ params[Instruction.Operand_1] ]); 
+			}
 		};
 		Instruction RR = new Instruction("RR",CBPREFIXED) {
 			public void execute(short... params) {
 
 			}
+			
+			public void log(StringBuilder log, short... params) {
+				log.append(getMnemonic() + "\t" + cbOps[ params[Instruction.Operand_1] ]); 
+			}
 		};
 		Instruction RL = new Instruction("RL",CBPREFIXED) {
 			public void execute(short... params) {
 
+			}
+			
+			public void log(StringBuilder log, short... params) {
+				log.append(getMnemonic() + "\t" + cbOps[ params[Instruction.Operand_1] ]); 
 			}
 		};
 		

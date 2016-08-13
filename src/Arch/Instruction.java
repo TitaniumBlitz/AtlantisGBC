@@ -17,11 +17,8 @@ public class Instruction {
 	public static final int Bytes = 7;
 	public static final int Cycles = 8; 
 	
-	//public static final int A = 0;
 	public static final int IMMD_8 = 1; // d8
 	//public static final int (HL-) = 2;
-	public static final int SP = 3;
-	//public static final int C = 4;
 	public static final int IMMD_16 = 5; // a16
 	//public static final int Z = 6;
 	public static final int SIGNED_8 = 7; // r8
@@ -31,29 +28,17 @@ public class Instruction {
 	//public static final int (HL+) = 11;
 	public static final int NZ = 12;
 	public static final int IMMD_16_DATA = 13; // d16
-	//public static final int H = 14;
-	//public static final int D = 15;
 	//public static final int (C) = 16;
-	//public static final int L = 17;
-	//public static final int (HL) = 18;
 	//public static final int NC = 19;
-	//public static final int B = 20;
 	//public static final int 38H = 21;
-	//public static final int E = 22;
-	public static final int BC = 23;
-	//public static final int (BC) = 24;
 	//public static final int 20H = 25;
 	//public static final int 28H = 26;
-	//public static final int AF = 27;
 	//public static final int 18H = 28;
 	//public static final int 30H = 29;
 	public static final int IMMD_8_ADDR = 30; // (a8)
-	//public static final int CB = 31;
 	//public static final int 10H = 32;
 	//public static final int 00H = 33;
 	//public static final int SP+r8 = 34;
-	public static final int DE = 35;
-	//public static final int (DE) = 36;
 	//public static final int 0 = 37;
 
 	
@@ -72,6 +57,14 @@ public class Instruction {
 	}
 	
 	public void execute(short... params) {
+		
+	}
+	
+	public void debugExecute(short... params) {
+		
+	}
+	
+	public void debugExecute() {
 		
 	}
 	

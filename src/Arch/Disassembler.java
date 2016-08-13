@@ -8,12 +8,12 @@ import Utils.StringUtils;
 
 public class Disassembler {
 	
-	protected ByteArray data;
+	protected Memory mem;
 	
 	private StringBuilder log = new StringBuilder();
 
-	public Disassembler(ByteArray rData) {
-		this.data = rData;
+	public Disassembler(Memory rData) {
+		this.mem = rData;
 	}
 	
 	private static boolean equalsEither(int v, int... vals) {
@@ -23,13 +23,13 @@ public class Disassembler {
 	}
 	
 	public void disasmAllInstructions() {	
-		Processor p = new Processor(data);
+		Processor p = new Processor(mem);
 		Instruction ins = null;		
 		short[] insParams = null;
 		int op = (byte)0xff;
 		long elapsed = 0L, start = System.nanoTime();
 		do {			
-			op = data.readUnsignedByte();			
+			op = mem.readUnsignedByte();			
 			ins = p.fetchInstruction(op);
 			
 			if(ins == null) {
@@ -45,10 +45,9 @@ public class Disassembler {
 			
 			//System.out.println(p.fetchOpName(op));
 			
-			
 			//System.out.println("pos: " + StringUtils.toHexStr((short)data.position));
 			
-		} while(data.bytesAvailable > 1);
+		} while(mem.bytesAvailable > 1);
 		
 		elapsed = System.nanoTime() - start;
 		

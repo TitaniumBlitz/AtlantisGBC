@@ -29,7 +29,7 @@ public class ByteArray {
 		loadFromFile(fileName);
 	}
 	
-	private void updateInfo(int posDelta) {
+	protected void updateInfo(int posDelta) {
 		this.position += posDelta;
 		this.length = buffer.size();
 		this.bytesAvailable = this.length - this.position;		
@@ -61,6 +61,9 @@ public class ByteArray {
 		return ++pos;
 	}
 	
+	/*** 
+	 * Write unsigned short
+	 * */
 	public void writeShort(int val) {
 		short x = getLower16Bits(val);
 		byte[] bytes = getBytesFromShort(x);
@@ -70,6 +73,22 @@ public class ByteArray {
 			else buffer.add(b);
 			p++;
 		}*/
+		int p = this.position;
+		if(endian == ByteOrder.BIG_ENDIAN) {
+			p = storeByte(p, bytes[1]);
+			p = storeByte(p, bytes[0]);
+		} else { // else little endian
+			p = storeByte(p, bytes[0]);
+			p = storeByte(p, bytes[1]);
+		}
+		updateInfo(2);
+	}
+	
+	/*** 
+	 * Write short (could be signed)
+	 * */	
+	public void writeShort(short val) {
+		byte[] bytes = getBytesFromShort(val);
 		int p = this.position;
 		if(endian == ByteOrder.BIG_ENDIAN) {
 			p = storeByte(p, bytes[1]);

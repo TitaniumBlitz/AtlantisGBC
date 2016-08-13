@@ -714,7 +714,7 @@ public class Processor {
 		};
 		
 		/* ******************************************************************************************* */
-		
+		//
 		// Map cb-prefixed instructions		
 		Instruction SRL = new Instruction("SRL",CBPREFIXED) {
 			public void execute(short... params) {

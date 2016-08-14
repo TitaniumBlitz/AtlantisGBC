@@ -261,7 +261,7 @@ public class Processor {
 		
 		Instruction EI = new Instruction("EI",UNPREFIXED) {
 			public void execute(short... params) {
-
+				// enable interrupts
 			}
 			
 			public void log(StringBuilder log, short... params) {
@@ -631,7 +631,7 @@ public class Processor {
 		
 		Instruction DI = new Instruction("DI",UNPREFIXED) {
 			public void execute(short... params) {
-
+				// disable interrupts
 			}
 			
 			public void log(StringBuilder log, short... params) {

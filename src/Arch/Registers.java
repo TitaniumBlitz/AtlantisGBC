@@ -37,9 +37,9 @@ public class Registers {
 	protected boolean  Flags_H_HALFCARRY = false;
 	protected boolean  Flags_C_CARRY = false;
 
-	protected byte[] tbl = new byte[40];
-	protected int[][] regpair_tbl = new int[40][2];
-	protected int[] ptr2regs = new int[40];
+	protected byte[] tbl = new byte[41];
+	protected int[][] regpair_tbl = new int[41][2];
+	protected int[] ptr2regs = new int[41];
 	
 	protected int[] cbReverseLookup;
 	
